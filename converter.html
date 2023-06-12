@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script> <!-- 리액트 CDN설치 -->
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>  <!-- 리액트돔 CDN설치 -->
+    <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.15.4/babel.min.js"></script>  <!--바벨 CDN 설치-->
+    <title>과제뿌수기</title>
+</head>
+<body>
+    <div id="app"></div>
+
+    <script type="text/babel"> //바벨을 사용할 수 있게 type을 작성해줌
+    const app = document.getElementById('app')
+    const MinToHours = () => {
+        const [amount, setamount] = React.useState(0);
+        const onChange = () => {
+            // console.log("현재input값",event.target.value)
+            setamount((current)=>event.target.value)
+        }
+        const [isFlipped, setisFlipped] = React.useState(false);
+        const flip = () => {
+            setisFlipped((current)=>!current);
+            reset();
+        }
+        const reset = () => setamount(0);
+
+        return (
+            <div>
+                <div>
+                    <label htmlFor="min">Minutes:</label>
+                    <input
+                    id="min"
+                    type="number"
+                    placeholder="Minutes"
+                    value={isFlipped?amount*60:amount}
+                    onChange={onChange}
+                    disabled={isFlipped}
+                    /><br/>
+                    <label htmlFor="hour">Hours:</label>
+                    <input
+                    id="hour"
+                    type="number"
+                    placeholder="Hours"
+                    value={isFlipped?amount:amount/60}
+                    onChange={onChange}
+                    disabled={!isFlipped}
+                    />
+                </div>
+                <button onClick={reset}>reset</button>
+                <button onClick={flip}>Flip</button>
+            </div>
+        )
+    }
+
+    const KmToMiles = () => (
+        <div>
+            일단 여기는 비워둘거임
+        </div>
+    )
+    function Container() {
+        const [index,setIndex] = React.useState(0);
+        const onSelect = () => (
+            setIndex((current)=>event.target.value)
+        )
+        return (
+            <div>
+                <h1>Super Converter</h1>
+                <select name="selection" onChange={onSelect}>
+                    <option value="0">전체</option>
+                    <option value="1">시간변환</option>
+                    <option value="2">단위변환</option>
+                </select>
+                {index === "1" ? <MinToHours/>:null}
+                {index === "2" ? <KmToMiles/>:null}
+            </div>
+        )
+       
+    }
+    const root = ReactDOM.createRoot(app);
+    root.render(<Container/>);
+    </script>
+</body>
+</html>
